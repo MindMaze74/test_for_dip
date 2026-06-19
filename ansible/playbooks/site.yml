@@ -1,0 +1,54 @@
+---
+- name: Generate SSH key on Bastion
+  hosts: bastion
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Generate SSH key on Bastion
+      user:
+        name: ubuntu
+        generate_ssh_key: yes
+        ssh_key_bits: 4096
+        ssh_key_file: .ssh/id_rsa
+        ssh_key_type: rsa
+
+    - name: Copy SSH key to all VMs
+      shell: |
+        for ip in {{ web1_private_ip }} {{ web2_private_ip }} {{ prometheus_private_ip }} {{ grafana_private_ip }} {{ elasticsearch_private_ip }} {{ kibana_private_ip }}; do
+          ssh-copy-id -i /home/ubuntu/.ssh/id_rsa.pub -o StrictHostKeyChecking=no ubuntu@$ip 2>/dev/null || true
+        done
+      args:
+        executable: /bin/bash
+      ignore_errors: yes
+
+- name: Setup complete infrastructure
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Show inventory
+      debug:
+        msg: "Host: {{ inventory_hostname }} - IP: {{ ansible_default_ipv4.address }}"
+
+- name: Install Docker on all servers
+  import_playbook: ../roles/docker/tasks/main.yml
+
+- name: Setup Bastion host
+  import_playbook: setup_bastion.yml
+
+- name: Setup web servers
+  import_playbook: setup_web_servers.yml
+
+- name: Setup Prometheus
+  import_playbook: setup_prometheus.yml
+
+- name: Setup Grafana
+  import_playbook: setup_grafana.yml
+
+- name: Setup Elasticsearch
+  import_playbook: setup_elasticsearch.yml
+
+- name: Setup Kibana
+  import_playbook: setup_kibana.yml
+
+- name: Setup Filebeat on web servers
+  import_playbook: setup_filebeat.yml

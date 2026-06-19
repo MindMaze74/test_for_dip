@@ -1,0 +1,19 @@
+#cloud-config
+# ============================================================
+# CLOUD-INIT ДЛЯ ВСЕХ ВМ (КРОМЕ BASTION)
+# ============================================================
+# 1. Создание пользователя ubuntu
+# 2. Добавление SSH-ключа для доступа
+# 3. Автоматическое обновление пакетов
+# ============================================================
+
+users:
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ${ssh_public_key}
+
+package_update: true
+package_upgrade: true
