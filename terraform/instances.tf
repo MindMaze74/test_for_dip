@@ -2,7 +2,6 @@
 # ВИРТУАЛЬНЫЕ МАШИНЫ
 # ============================================================
 # Все ВМ (кроме Bastion) находятся в приватных подсетях
-# Используется динамический образ Ubuntu 22.04
 # ============================================================
 
 # ------------------------------------------------------------
@@ -19,9 +18,9 @@ resource "yandex_compute_instance" "web" {
   allow_stopping_for_update = true
 
   resources {
-    cores  = 2
-    memory = 2
-    core_fraction = 20  # Прерываемые ВМ для экономии
+    cores         = 2
+    memory        = 2
+    core_fraction = 20
   }
 
   boot_disk {
@@ -34,7 +33,7 @@ resource "yandex_compute_instance" "web" {
 
   network_interface {
     subnet_id          = yandex_vpc_subnet.private[count.index].id
-    nat                = false  # Без публичного IP
+    nat                = false
     security_group_ids = [yandex_vpc_security_group.web.id, yandex_vpc_security_group.internal.id]
   }
 
@@ -42,10 +41,11 @@ resource "yandex_compute_instance" "web" {
     user-data = templatefile("${path.module}/templates/cloud-init.yml.tpl", {
       ssh_public_key = file(var.ssh_public_key_path)
     })
+    ssh-keys = "ubuntu:${file(var.ssh_public_key_path)}"
   }
 
   scheduling_policy {
-    preemptible = true  # Прерываемые ВМ для экономии
+    preemptible = true
   }
 }
 
@@ -53,7 +53,7 @@ resource "yandex_compute_instance" "web" {
 # PROMETHEUS
 # ------------------------------------------------------------
 resource "yandex_compute_instance" "prometheus" {
-  depends_on = [time_sleep.wait_for_prometheus]
+  depends_on = [time_sleep.wait_for_instances]
 
   name        = "${var.project_name}-prometheus"
   hostname    = "${var.project_name}-prometheus"
@@ -86,6 +86,7 @@ resource "yandex_compute_instance" "prometheus" {
     user-data = templatefile("${path.module}/templates/cloud-init.yml.tpl", {
       ssh_public_key = file(var.ssh_public_key_path)
     })
+    ssh-keys = "ubuntu:${file(var.ssh_public_key_path)}"
   }
 
   scheduling_policy {
@@ -97,7 +98,7 @@ resource "yandex_compute_instance" "prometheus" {
 # GRAFANA
 # ------------------------------------------------------------
 resource "yandex_compute_instance" "grafana" {
-  depends_on = [time_sleep.wait_for_grafana]
+  depends_on = [time_sleep.wait_for_instances]
 
   name        = "${var.project_name}-grafana"
   hostname    = "${var.project_name}-grafana"
@@ -130,6 +131,7 @@ resource "yandex_compute_instance" "grafana" {
     user-data = templatefile("${path.module}/templates/cloud-init.yml.tpl", {
       ssh_public_key = file(var.ssh_public_key_path)
     })
+    ssh-keys = "ubuntu:${file(var.ssh_public_key_path)}"
   }
 
   scheduling_policy {
@@ -141,7 +143,7 @@ resource "yandex_compute_instance" "grafana" {
 # ELASTICSEARCH
 # ------------------------------------------------------------
 resource "yandex_compute_instance" "elasticsearch" {
-  depends_on = [time_sleep.wait_for_elasticsearch]
+  depends_on = [time_sleep.wait_for_instances]
 
   name        = "${var.project_name}-elasticsearch"
   hostname    = "${var.project_name}-elasticsearch"
@@ -174,6 +176,7 @@ resource "yandex_compute_instance" "elasticsearch" {
     user-data = templatefile("${path.module}/templates/cloud-init.yml.tpl", {
       ssh_public_key = file(var.ssh_public_key_path)
     })
+    ssh-keys = "ubuntu:${file(var.ssh_public_key_path)}"
   }
 
   scheduling_policy {
@@ -185,7 +188,7 @@ resource "yandex_compute_instance" "elasticsearch" {
 # KIBANA
 # ------------------------------------------------------------
 resource "yandex_compute_instance" "kibana" {
-  depends_on = [time_sleep.wait_for_kibana]
+  depends_on = [time_sleep.wait_for_instances]
 
   name        = "${var.project_name}-kibana"
   hostname    = "${var.project_name}-kibana"
@@ -218,6 +221,7 @@ resource "yandex_compute_instance" "kibana" {
     user-data = templatefile("${path.module}/templates/cloud-init.yml.tpl", {
       ssh_public_key = file(var.ssh_public_key_path)
     })
+    ssh-keys = "ubuntu:${file(var.ssh_public_key_path)}"
   }
 
   scheduling_policy {

@@ -2,13 +2,13 @@
 # INVENTORY ДЛЯ ANSIBLE
 # ============================================================
 # Автоматически генерируется Terraform после создания ВМ
-# Использует реальные IP-адреса созданных ресурсов
 # ============================================================
 
 [all:vars]
 ansible_user=ubuntu
 ansible_ssh_private_key_file=~/.ssh/id_rsa
 ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+elasticsearch_private_ip=${elasticsearch_private_ip}
 
 [bastion]
 bastion ansible_host=${bastion_public_ip}
@@ -23,6 +23,7 @@ prometheus_private_ip=${prometheus_private_ip}
 
 [web:vars]
 ansible_ssh_common_args='-o ProxyJump=ubuntu@${bastion_public_ip} -o StrictHostKeyChecking=no'
+elasticsearch_private_ip=${elasticsearch_private_ip}
 
 [web]
 web1 ansible_host=${web1_private_ip}
@@ -42,6 +43,7 @@ grafana ansible_host=${grafana_private_ip}
 
 [elasticsearch:vars]
 ansible_ssh_common_args='-o ProxyJump=ubuntu@${bastion_public_ip} -o StrictHostKeyChecking=no'
+elasticsearch_private_ip=${elasticsearch_private_ip}
 
 [elasticsearch]
 elasticsearch ansible_host=${elasticsearch_private_ip}

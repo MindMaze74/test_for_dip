@@ -22,7 +22,7 @@ resource "yandex_vpc_subnet" "private" {
   zone           = var.yc_zones[count.index]
   network_id     = yandex_vpc_network.main.id
   v4_cidr_blocks = ["10.0.${count.index + 1}.0/24"]
-  route_table_id = yandex_vpc_route_table.nat.id  # Маршрут через NAT
+  route_table_id = yandex_vpc_route_table.nat.id # Маршрут через NAT
 }
 
 # ------------------------------------------------------------------

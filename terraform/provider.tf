@@ -33,7 +33,7 @@ data "yandex_compute_image" "ubuntu" {
 # Аутентификация через сервисный аккаунт
 # Ключ хранится локально и НЕ коммитится в Git
 provider "yandex" {
-  service_account_key_file = var.service_account_key_file
+  service_account_key_file = "/home/user/diplom-sa-key.json"
   cloud_id                 = var.yc_cloud_id
   folder_id                = var.yc_folder_id
   zone                     = var.yc_zones[0]

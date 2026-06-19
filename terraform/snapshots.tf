@@ -9,10 +9,10 @@ resource "yandex_compute_snapshot_schedule" "daily" {
   name = "${var.project_name}-daily-snapshots"
 
   schedule_policy {
-    expression = "0 0 * * *"  # Каждый день в 00:00 UTC
+    expression = "0 0 * * *" # Каждый день в 00:00 UTC
   }
 
-  retention_period = "168h"  # 7 дней
+  retention_period = "168h" # 7 дней
 
   disk_ids = concat(
     # Диски веб-серверов
