@@ -40,7 +40,7 @@ resource "yandex_compute_instance" "bastion" {
       kibana_private_ip  = yandex_compute_instance.kibana.network_interface[0].ip_address
       ssh_public_key     = file(var.ssh_public_key_path)
     })
-    #Передаём SSH-ключ на Bastion
+    # Передаём SSH ключ на Bastion
     ssh-keys = "ubuntu:${file(var.ssh_public_key_path)}"
   }
 
