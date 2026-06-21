@@ -1,5 +1,5 @@
 ---
-# Установка Docker
+# Установка filebeat
 
 - name: Update apt cache
   apt:
