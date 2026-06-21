@@ -210,18 +210,18 @@ diplom_test/
 ```mermaid
 graph TD
     subgraph "Интернет"
-        User[Пользователь]
+        User[("Пользователь")]
     end
 
     subgraph "Yandex Cloud"
         subgraph "Публичная подсеть (10.0.10.0/24)"
-            Bastion[("Bastion (SSH-шлюз + Nginx-прокси)")]
-            Bastion -->|Порт 22| User
+            Bastion[("Bastion
+(SSH-шлюз + Nginx-прокси)")]
+            Bastion -->|"Порт 22"| User
         end
 
         subgraph "Приватная подсеть (10.0.1.0/24)"
             Web1[("Web1 (Nginx)")]
-            Web2[("Web2 (Nginx)")]
             Prometheus[("Prometheus")]
             Grafana[("Grafana")]
             Elasticsearch[("Elasticsearch")]
@@ -229,7 +229,7 @@ graph TD
         end
 
         subgraph "Приватная подсеть (10.0.2.0/24)"
-            Web2_alt[("Web2 (Nginx)")]
+            Web2[("Web2 (Nginx)")]
         end
 
         subgraph "Маршрутизация"
@@ -237,27 +237,27 @@ graph TD
         end
     end
 
-    User -->|HTTP: 80,3000,5601| Bastion
-    Bastion -->|Прокси :80| Web1
-    Bastion -->|Прокси :80| Web2_alt
-    Bastion -->|Прокси :3000| Grafana
-    Bastion -->|Прокси :5601| Kibana
+    User -->|"HTTP: 80,3000,5601"| Bastion
+    Bastion -->|"Прокси :80"| Web1
+    Bastion -->|"Прокси :80"| Web2
+    Bastion -->|"Прокси :3000"| Grafana
+    Bastion -->|"Прокси :5601"| Kibana
 
-    Web1 -->|Сбор метрик| Prometheus
-    Web2_alt -->|Сбор метрик| Prometheus
-    Grafana -->|Запросы к данным| Prometheus
+    Web1 -->|"Сбор метрик"| Prometheus
+    Web2 -->|"Сбор метрик"| Prometheus
+    Grafana -->|"Запросы к данным"| Prometheus
 
-    Web1 -->|Отправка логов| Elasticsearch
-    Web2_alt -->|Отправка логов| Elasticsearch
-    Kibana -->|Запросы к данным| Elasticsearch
+    Web1 -->|"Отправка логов"| Elasticsearch
+    Web2 -->|"Отправка логов"| Elasticsearch
+    Kibana -->|"Запросы к данным"| Elasticsearch
 
-    Web1 -.->|Доступ в интернет| NAT
-    Web2_alt -.->|Доступ в интернет| NAT
-    Prometheus -.->|Доступ в интернет| NAT
-    Grafana -.->|Доступ в интернет| NAT
-    Elasticsearch -.->|Доступ в интернет| NAT
-    Kibana -.->|Доступ в интернет| NAT
-    Bastion -.->|Доступ в интернет| NAT
+    Web1 -.->|"Доступ в интернет"| NAT
+    Web2 -.->|"Доступ в интернет"| NAT
+    Prometheus -.->|"Доступ в интернет"| NAT
+    Grafana -.->|"Доступ в интернет"| NAT
+    Elasticsearch -.->|"Доступ в интернет"| NAT
+    Kibana -.->|"Доступ в интернет"| NAT
+    Bastion -.->|"Доступ в интернет"| NAT
 ```
 
 
