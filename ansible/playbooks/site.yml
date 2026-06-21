@@ -205,6 +205,12 @@
   become: yes
   tags: kibana
   tasks:
+    - name: Create kibana directory
+      file:
+        path: /opt/kibana
+        state: directory
+        mode: '0755'
+
     - name: Run kibana container
       docker_container:
         name: kibana
@@ -213,8 +219,10 @@
         restart_policy: always
         ports:
           - "5601:5601"
+        volumes:
+          - /opt/kibana:/usr/share/kibana/data
         env:
           ELASTICSEARCH_HOSTS: "http://{{ elasticsearch_private_ip }}:9200"
 
-- name: Setup free backup via rsync
-  import_playbook: backup.yml
+# Резервное копирование
+- import_playbook: backup.yml
