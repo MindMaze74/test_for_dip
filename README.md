@@ -85,13 +85,13 @@
 
 | Имя ВМ | Зона доступности | Роль | Публичный IP | Прерываемая |
 |--------|------------------|------|--------------|-------------|
-| `bastion` | `ru-central1-a` | SSH-шлюз, Nginx-прокси (балансировщик) | **Да** (единственный) | ✅ |
-| `web1` | `ru-central1-a` | Веб-сервер (nginx в Docker) | Нет | ✅ |
-| `web2` | `ru-central1-b` | Веб-сервер (nginx в Docker) | Нет | ✅ |
-| `prometheus` | `ru-central1-a` | Сбор метрик (Prometheus в Docker) | Нет | ✅ |
-| `grafana` | `ru-central1-a` | Визуализация (Grafana в Docker) | Нет | ✅ |
-| `elasticsearch` | `ru-central1-a` | Хранилище логов (Elasticsearch в Docker) | Нет | ✅ |
-| `kibana` | `ru-central1-a` | Просмотр логов (Kibana в Docker) | Нет | ✅ |
+| `bastion` | `ru-central1-a` | SSH-шлюз, Nginx-прокси (балансировщик) | **Да** (единственный) | да |
+| `web1` | `ru-central1-a` | Веб-сервер (nginx в Docker) | Нет | да |
+| `web2` | `ru-central1-b` | Веб-сервер (nginx в Docker) | Нет | да |
+| `prometheus` | `ru-central1-a` | Сбор метрик (Prometheus в Docker) | Нет | да |
+| `grafana` | `ru-central1-a` | Визуализация (Grafana в Docker) | Нет | да |
+| `elasticsearch` | `ru-central1-a` | Хранилище логов (Elasticsearch в Docker) | Нет | да |
+| `kibana` | `ru-central1-a` | Просмотр логов (Kibana в Docker) | Нет | да |
 
 > **Примечание:** Все ВМ используют **прерываемые** инстансы (`preemptible = true`), что позволяет экономить до 70% стоимости аренды. Это допустимо для курсовой работы, так как инфраструктура не является критичной к перезапускам.
 
@@ -315,15 +315,18 @@ graph TD
     ```
 
 ### Доступ к сервисам
-Сервис	URL	Логин/Пароль
-Сайт	http://<bastion_public_ip>/	–
-Grafana	http://<bastion_public_ip>:3000	admin / admin
-Kibana	http://<bastion_public_ip>:5601	– (без аутентификации)
-Публичный IP Bastion можно получить из вывода
-    ```bash
-    cd terraform
-    terraform output bastion_public_ip
-    ```
+
+| Сервис | URL | Логин/Пароль |
+|--------|-----|--------------|
+| **Сайт** | `http://<bastion_public_ip>/` | – |
+| **Grafana** | `http://<bastion_public_ip>:3000` | `admin` / `admin` |
+| **Kibana** | `http://<bastion_public_ip>:5601` | – (без аутентификации) |
+
+> **Примечание:** Публичный IP Bastion можно получить из вывода Terraform:
+> ```bash
+> cd terraform
+> terraform output bastion_public_ip
+> ```
 
 ### Вывод
 В результате работы спроектирована и реализована полностью автоматизированная инфраструктура, отвечающая минимальным требованиям курсового задания. Использование Terraform и Ansible обеспечивает воспроизводимость, а принятые компромиссы (единственный публичный IP, прокси на Bastion, прерываемые ВМ) являются разумными и обоснованными в условиях облачных квот и ограниченного бюджета.
