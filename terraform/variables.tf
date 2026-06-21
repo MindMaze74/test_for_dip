@@ -1,24 +1,37 @@
+# Переменные Terraform
+
+# Yandex Cloud
 variable "yc_cloud_id" {
-  description = "Yandex Cloud ID"
+  description = "ID облака Yandex Cloud"
   type        = string
 }
 
 variable "yc_folder_id" {
-  description = "Yandex Cloud Folder ID"
+  description = "ID каталога Yandex Cloud"
   type        = string
 }
 
 variable "yc_zones" {
-  description = "Yandex Cloud availability zones"
+  description = "Зоны доступности Yandex Cloud"
   type        = list(string)
   default     = ["ru-central1-a", "ru-central1-b"]
 }
 
+variable "service_account_key_file" {
+  description = "Путь к файлу ключа сервисного аккаунта"
+  type        = string
+  default     = "~/diplom-sa-key.json"
+}
+
+# Проект
+
 variable "project_name" {
-  description = "Project name"
+  description = "Имя проекта"
   type        = string
   default     = "diplom-project"
 }
+
+# SSH-доступ
 
 variable "ssh_public_key_path" {
   description = "Путь к публичному SSH ключу"
@@ -27,13 +40,13 @@ variable "ssh_public_key_path" {
 }
 
 variable "ssh_private_key_path" {
-  description = "Путь к приватному SSH ключу"
+  description = "Путь к файлу ключа сервисного аккаунта"
   type        = string
   default     = "~/.ssh/diplom"
 }
 
 variable "default_username" {
-  description = "Default username for VMs"
+  description = "Юзернейм на ВМ"
   type        = string
   default     = "ubuntu"
 }

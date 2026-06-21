@@ -1,7 +1,5 @@
 ---
-# ============================================================
-# ОСНОВНОЙ ПЛЕЙБУК ANSIBLE
-# ============================================================
+# Основной плейбук Ansible
 
 - name: Setup SSH keys on Bastion
   import_playbook: setup_ssh_keys.yml
@@ -100,7 +98,7 @@
           <html>
           <head>
             <meta charset="UTF-8">
-            <title>Курсовой проект</title>
+            <title>Курсовая работа</title>
             <style>
               body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f0f0f0; }
               h1 { color: #333; }
@@ -108,7 +106,7 @@
             </style>
           </head>
           <body>
-            <h1>Курсовой проект-Старцев Данила Антонович</h1>
+            <h1>Курсовая работа - Старцев Данила Антонович</h1>
             <p>Сервер: <span class="server">{{ ansible_hostname }}</span></p>
             <p>IP: <span class="server">{{ ansible_default_ipv4.address }}</span></p>
           </body>

@@ -23,7 +23,7 @@
           <html>
           <head>
             <meta charset="UTF-8">
-            <title>Дипломный проект</title>
+            <title>Курсовая работа</title>
             <style>
               body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f0f0f0; }
               h1 { color: #333; }
@@ -31,7 +31,7 @@
             </style>
           </head>
           <body>
-            <h1>🚀 Дипломный проект</h1>
+            <h1>Курсовая работа - Старцев Данила Антонович</h1>
             <p>Сервер: <span class="server">{{ ansible_hostname }}</span></p>
             <p>IP: <span class="server">{{ ansible_default_ipv4.address }}</span></p>
           </body>
@@ -177,16 +177,16 @@
               files = ["/var/log/nginx/access.log"]
             }
 
-            # Гистограммы для времени ответа
+            #Гистограммы для времени ответа
             histogram_buckets = [0.005, 0.01, 0.025, 0.05, 0.1, 0.25, 0.5, 1, 2.5, 5, 10]
 
-            # Добавляем кастомные метки
+            #Добавляем кастомные метки
             labels {
               service = "web"
               server_name = "{{ ansible_hostname }}"
             }
 
-            # Релейблинг для группировки URI
+            #Релейблинг для группировки URI
             relabel "request_uri" {
               from = "request"
               split = 2
@@ -208,7 +208,7 @@
         state: restarted
         enabled: yes
 
-    # ---- Удаляем все старые репозитории Elastic ----
+    #Удаляем все старые репозитории Elastic
     - name: Remove all Elastic repositories
       shell: |
         rm -f /etc/apt/sources.list.d/elastic-*.list
@@ -227,7 +227,7 @@
       when: apt_update is failed
       ignore_errors: yes
 
-    # ---- Запускаем Filebeat через Docker (альтернатива systemd) ----
+    # Запускаем Filebeat через Docker (альтернатива systemd)
     - name: Create Filebeat config directory
       file:
         path: /opt/filebeat

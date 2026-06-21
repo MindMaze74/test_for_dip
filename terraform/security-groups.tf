@@ -1,13 +1,7 @@
-# ============================================================
-# ГРУППЫ БЕЗОПАСНОСТИ
-# ============================================================
-# Bastion - единственная ВМ с публичным доступом
-# Все остальные ВМ доступны только через Bastion
-# ============================================================
+# Группы безопасности
 
-# ------------------------------------------------------------
-# BASTION: доступ из интернета
-# ------------------------------------------------------------
+
+# Bastion: доступ из интернета
 resource "yandex_vpc_security_group" "bastion" {
   depends_on = [time_sleep.wait_for_security_groups]
   name        = "${var.project_name}-bastion-sg"
@@ -45,9 +39,8 @@ resource "yandex_vpc_security_group" "bastion" {
   }
 }
 
-# ------------------------------------------------------------
-# ВНУТРЕННЯЯ ГРУППА: доступ от Bastion и между собой
-# ------------------------------------------------------------
+
+# Внутренняя группа: доступ от Bastion и между собой
 resource "yandex_vpc_security_group" "internal" {
   depends_on = [time_sleep.wait_for_security_groups]
   name        = "${var.project_name}-internal-sg"
@@ -84,9 +77,7 @@ resource "yandex_vpc_security_group" "internal" {
   }
 }
 
-# ------------------------------------------------------------
-# ВЕБ-СЕРВЕРЫ: доступ только от Bastion
-# ------------------------------------------------------------
+# Веб-серверы: доступ только от Bastion
 resource "yandex_vpc_security_group" "web" {
   depends_on = [time_sleep.wait_for_security_groups]
   name        = "${var.project_name}-web-sg"

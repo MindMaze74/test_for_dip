@@ -1,10 +1,4 @@
-# ============================================================
-# ПРОВАЙДЕРЫ TERRAFORM
-# ============================================================
-# 1. yandex-cloud/yandex - основной провайдер для Yandex Cloud
-# 2. hashicorp/time - для задержек между созданиями ресурсов
-# 3. hashicorp/local - для генерации файлов (inventory.ini)
-# ============================================================
+# Провайдеры Terraform
 
 terraform {
   required_providers {
@@ -24,7 +18,7 @@ terraform {
   required_version = ">= 1.0"
 }
 
-# Динамический образ Ubuntu 22.04
+# Актуальный образ Ubuntu 22.04
 # Используется для всех ВМ
 data "yandex_compute_image" "ubuntu" {
   family = "ubuntu-2204-lts"

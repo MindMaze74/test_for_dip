@@ -1,12 +1,6 @@
-# ============================================================
-# ВИРТУАЛЬНЫЕ МАШИНЫ
-# ============================================================
-# Все ВМ (кроме Bastion) находятся в приватных подсетях
-# ============================================================
+# Виртуальные машины
 
-# ------------------------------------------------------------
-# ВЕБ-СЕРВЕРЫ (2 шт, в разных зонах)
-# ------------------------------------------------------------
+# Веб-серверы (2 шт, в разных зонах)
 resource "yandex_compute_instance" "web" {
   count = 2
 
@@ -49,9 +43,7 @@ resource "yandex_compute_instance" "web" {
   }
 }
 
-# ------------------------------------------------------------
-# PROMETHEUS
-# ------------------------------------------------------------
+# Prometheus
 resource "yandex_compute_instance" "prometheus" {
   depends_on = [time_sleep.wait_for_instances]
 
@@ -94,9 +86,7 @@ resource "yandex_compute_instance" "prometheus" {
   }
 }
 
-# ------------------------------------------------------------
-# GRAFANA
-# ------------------------------------------------------------
+# Grafana
 resource "yandex_compute_instance" "grafana" {
   depends_on = [time_sleep.wait_for_instances]
 
@@ -139,9 +129,7 @@ resource "yandex_compute_instance" "grafana" {
   }
 }
 
-# ------------------------------------------------------------
-# ELASTICSEARCH
-# ------------------------------------------------------------
+# Elasticsearch
 resource "yandex_compute_instance" "elasticsearch" {
   depends_on = [time_sleep.wait_for_instances]
 
@@ -184,9 +172,7 @@ resource "yandex_compute_instance" "elasticsearch" {
   }
 }
 
-# ------------------------------------------------------------
-# KIBANA
-# ------------------------------------------------------------
+# Kibana
 resource "yandex_compute_instance" "kibana" {
   depends_on = [time_sleep.wait_for_instances]
 
